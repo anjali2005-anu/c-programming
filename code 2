@@ -1,0 +1,64 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(){
+    FILE *fp;
+    char buffer[256];
+    long file_size;
+
+    // 1. Create and Write to file
+    fp = fopen("demo.txt", "w");
+    if (fp == NULL) {
+        printf("Error creating file.\n");
+        return 1;
+    }
+    fputs("Hello! This is a test file.\n", fp);
+    fputs("This file demonstrates file operations in C.\n", fp);
+    fclose(fp);
+    printf("File created and data written successfully.\n");
+
+    // 2. Append to file
+    fp = fopen("demo.txt", "a");
+    if (fp == NULL) {
+        printf("Error opening file for appending.\n");
+        return 1;
+    }
+    fputs("Appending this line at the end.\n", fp);
+    fclose(fp);
+    printf("Data appended successfully.\n");
+
+    // 3. Read from file
+    fp = fopen("demo.txt", "r");
+    if (fp == NULL) {
+        printf("Error opening file for reading.\n");
+        return 1;
+    }
+    printf("\nReading file content:\n");
+    while (fgets(buffer, sizeof(buffer), fp)) {
+        printf("%s", buffer);
+    }
+
+    // 4. Get file size
+    fseek(fp, 0L, SEEK_END); // Move to end of file
+    file_size = ftell(fp);  // Get current byte offset
+    printf("\n\nFile size: %ld bytes\n", file_size);
+    fclose(fp);
+
+    // 5. Rename the file
+    if (rename("demo.txt", "renamed_demo.txt") == 0) {
+        printf("File renamed successfully to 'renamed_demo.txt'\n");
+    } else {
+        printf("Error renaming file.\n");
+    }
+
+    // 6. Delete the file
+    if (remove("renamed_demo.txt") == 0) {
+        printf("File deleted successfully.\n");
+    } else {
+        printf("Error deleting file.\n");
+    }
+
+        return 0;
+            
+}
+                    

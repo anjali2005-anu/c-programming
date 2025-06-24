@@ -1,0 +1,45 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    FILE *fp;
+    char data[100];
+
+    // 1. Create & Write to file
+    fp = fopen("example.txt", "w"); // "w" creates a file or truncates if it exists
+    if (fp == NULL) {
+        printf("Error creating file.\n");
+        return 1;
+    }
+    printf("Enter text to write to the file: ");
+    fgets(data, sizeof(data), stdin);
+    fputs(data, fp);
+    fclose(fp);
+    printf("Data written to file.\n");
+
+    // 2. Append data to file
+    fp = fopen("example.txt", "a"); // "a" for append
+    if (fp == NULL) {
+        printf("Error opening file for appending.\n");
+        return 1;
+    }
+    printf("Enter text to append to the file: ");
+    fgets(data, sizeof(data), stdin);
+    fputs(data, fp);
+    fclose(fp);
+    printf("Data appended to file.\n");
+
+    // 3. Read file
+    fp = fopen("example.txt", "r"); // "r" for read
+    if (fp == NULL) {
+        printf("Error opening file for reading.\n");
+        return 1;
+    }
+    printf("Contents of the file:\n");
+    while (fgets(data, sizeof(data), fp) != NULL) {
+        printf("%s", data);
+    }
+    fclose(fp);
+
+    return 0;
+}
